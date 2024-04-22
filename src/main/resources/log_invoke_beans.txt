@@ -1,0 +1,40 @@
+Log: bean: checker1, method: check, param: "кайт том", return value: "Кайт Том", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "20246-04-12", return value: "Ошибка", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "20246-04-12", return value: "Ошибка", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker1, method: check, param: "иванов петр петрович", return value: "Иванов Петр Петрович", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "20246-04-15", return value: "Ошибка", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "20246-04-15", return value: "Ошибка", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker1, method: check, param: "иванов алексей иванович", return value: "Иванов Алексей Иванович", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-11", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker2, method: check, param: "web", return value: "web", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-11", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker1, method: check, param: "системный администратор", return value: "Системный Администратор", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-12", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker2, method: check, param: "Linux", return value: "other:Linux", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-12", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker1, method: check, param: "кайт том", return value: "Кайт Том", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-12", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker2, method: check, param: "Oracle", return value: "other:Oracle", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-12", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker1, method: check, param: "иванов петр петрович", return value: "Иванов Петр Петрович", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-15", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker2, method: check, param: "mobile", return value: "mobile", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-15", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-11", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker2, method: check, param: "web", return value: "web", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-11", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-12", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker2, method: check, param: "web", return value: "web", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-12", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-12", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker2, method: check, param: "Oralce", return value: "other:Oralce", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-12", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-15", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker2, method: check, param: "Postgres", return value: "other:Postgres", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-15", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-11", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker2, method: check, param: "Windows", return value: "other:Windows", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-11", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-12", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker2, method: check, param: "Linux", return value: "other:Linux", datetime: Mon Apr 22 09:57:05 MSK 2024
+Log: bean: checker3, method: check, param: "2024-04-12", return value: "Правильно", datetime: Mon Apr 22 09:57:05 MSK 2024
