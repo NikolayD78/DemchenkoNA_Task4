@@ -17,9 +17,6 @@ public class ReaderFromFile implements ConveyerDataReader {
         this.pathinput = path;
     }
 
-
-     //public ReaderFromFile(){};
-
     public String getPath() {
         return pathinput;
     }

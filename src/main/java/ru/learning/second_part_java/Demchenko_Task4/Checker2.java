@@ -13,13 +13,15 @@ public class Checker2 implements ConveyerDataChecker{
     @Override
     public String check(String str) {
 
+        String[] words = str.split(";"); // делим на элементы
         String result;
+        result="";
 
-        result=str;
+        result=words[3];
 
-        if(str.equals("mobile")==false && str.equals("web")==false)
+        if(result.equals("mobile")==false && result.equals("web")==false)
             result="other:"+result;
 
-        return result;
+        return words[0]+";"+words[1]+";"+words[2]+";"+result;
     }
 }

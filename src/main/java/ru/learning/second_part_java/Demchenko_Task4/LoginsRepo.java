@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 interface LoginsRepo extends JpaRepository<Logins, Integer> {
-        //List<Department> findAllByName(String name);
 
     }
 

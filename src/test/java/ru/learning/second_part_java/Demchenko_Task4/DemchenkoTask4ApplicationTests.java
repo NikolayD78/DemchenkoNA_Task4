@@ -2,13 +2,17 @@ package ru.learning.second_part_java.Demchenko_Task4;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,68 +22,93 @@ import java.util.List;
 import java.util.Scanner;
 
 @SpringBootTest
+@Testcontainers
 class DemchenkoTask4ApplicationTests {
 
-	ApplicationContext ctx;
-	Conveyer conv;
 	String args;
 
-	@Test
-	void contextLoads() {
+	@Container
+	static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:alpine3.19")
+			.withDatabaseName("jpadb")
+			.withUsername("postgres")
+			.withPassword("12345");
 
-		args="";
-		ctx = SpringApplication.run(DemchenkoTask4Application.class, args);
-		Assertions.assertTrue(ctx!=null);
+	@BeforeAll
+	static void beforeAll(ApplicationContext context) {
+		postgres.start();
+
+	}
+
+	@AfterAll
+	static void afterAll() {
+		postgres.stop();
+	}
+
+
+	@DynamicPropertySource
+	static void configureProperties(DynamicPropertyRegistry registry) {
+
+		//System.out.println("postgres::getJdbcUrl "+postgres.getJdbcUrl());
+		//System.out.println("postgres::getUsername "+postgres.getUsername());
+		//System.out.println("postgres::getPassword "+postgres.getPassword());
+
+		registry.add("spring.datasource.url", postgres::getJdbcUrl);
+		registry.add("spring.datasource.name", postgres::getUsername);
+		registry.add("spring.datasource.password", postgres::getPassword);
+	}
+
+	@Test
+	void contextLoads(ApplicationContext context) {
+		Assertions.assertNotNull(context);
+	}
+
+	@Test
+	void pgContainerIsUp() {
+		Assertions.assertEquals("running", postgres.getContainerInfo().getState().getStatus());
+	}
+
+	@Test
+	void testChecker1(ApplicationContext context, @Autowired Checker1 chk1) {
+
+		Assertions.assertEquals(chk1.check("User3;иванов алексей иванович;2024-04-11;web"), "User3;Иванов Алексей Иванович;2024-04-11;web");
 
 	}
 
 	@Test
-	void testChecker1() {
+	void testChecker2(ApplicationContext context, @Autowired Checker2 chk2) {
 
-		args="";
-		ctx = SpringApplication.run(DemchenkoTask4Application.class, args);
-
-		Checker1 chk1=ctx.getBean(Checker1.class);
-		Assertions.assertEquals(chk1.check("тестовый пользователь фио"),"Тестовый Пользователь Фио");
+		Assertions.assertEquals(chk2.check("User3;иванов алексей иванович;2024-04-11;web"),"User3;иванов алексей иванович;2024-04-11;web");
+		Assertions.assertEquals(chk2.check("User3;иванов алексей иванович;2024-04-11;mobile"),"User3;иванов алексей иванович;2024-04-11;mobile");
+		Assertions.assertEquals(chk2.check("User3;иванов алексей иванович;2024-04-11;другое"),"User3;иванов алексей иванович;2024-04-11;other:другое");
 
 
 	}
 
 	@Test
-	void testChecker2() {
+	void testChecker3(ApplicationContext context, @Autowired Checker3 chk3) {
 
-		args="";
-		ctx = SpringApplication.run(DemchenkoTask4Application.class, args);
-
-		Checker2 chk2=ctx.getBean(Checker2.class);
-		Assertions.assertEquals(chk2.check("mobile"),"mobile");
-		Assertions.assertEquals(chk2.check("web"),"web");
-		Assertions.assertEquals(chk2.check("другое"),"other:другое");
-
+		Assertions.assertEquals(chk3.check("User3;иванов алексей иванович;2024-04-11;web"),"User3;иванов алексей иванович;2024-04-11;web");
+		Assertions.assertEquals(chk3.check("User3;иванов алексей иванович;20246-04-11;web"),"Ошибка");
 
 	}
 
 	@Test
-	void testChecker3() {
+	void testCheckerAll(ApplicationContext context, @Autowired List<ConveyerDataChecker> checks) {
 
-		args="";
-		ctx = SpringApplication.run(DemchenkoTask4Application.class, args);
+		String checkValue;
+		checkValue="User3;иванов алексей иванович;2024-04-11;linux";
 
-		Checker3 chk3=ctx.getBean(Checker3.class);
-		Assertions.assertEquals(chk3.check("2024-04-21"),"Правильно");
-		Assertions.assertEquals(chk3.check("20246-04-21"),"Ошибка");
+		for (ConveyerDataChecker chk : checks)
+				checkValue = chk.check(checkValue);
 
-
+		Assertions.assertEquals(checkValue,"User3;Иванов Алексей Иванович;2024-04-11;other:linux");
 
 	}
 
 	@Test
-	void testDataReader() {
+	void testDataReader(ApplicationContext context, @Autowired ConveyerDataReader dr) {
 
-		args="";
-		ctx = SpringApplication.run(DemchenkoTask4Application.class, args);
 
-		ConveyerDataReader dr=ctx.getBean(ReaderFromFile.class);
 		ArrayList<String> arg = dr.read();
 		Assertions.assertEquals(arg.get(0),"User1;кайт том;20246-04-12;web");
 		Assertions.assertEquals(arg.get(1),"User2;иванов петр петрович;20246-04-15;mobile");
@@ -96,45 +125,13 @@ class DemchenkoTask4ApplicationTests {
 
 	}
 
+	// Записываем одну запись в таблицу users и одну в logins и проверяем что именно так и записалось
 	@Test
-	void testDataWriter() {
+	void testDBTransaction(ApplicationContext context, @Autowired UsersRepo ur,@Autowired LoginsRepo lr) {
 
-		args = "";
-		ctx = SpringApplication.run(DemchenkoTask4Application.class, args);
-		File test_file;
-		String result = "*Не определено*";
-
-		ConveyerDataWriter dw = ctx.getBean(WriterToFile.class);
-		dw.setPathOutput("C:\\temp\\test_file.txt");
-		dw.write("Тестовая строка1.");
-
-		try {
-			test_file = new File("C:\\temp\\test_file.txt");
-			Scanner sc = new Scanner(test_file);
-			if (sc.hasNextLine()) {
-				result = sc.nextLine();
-			}
-			sc.close();
-			test_file.delete();
-			Assertions.assertEquals(result, "Тестовая строка1.");
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-
-	}
-
-	// Тестовую базу не создаем, работаем с той же самой, так как установлено
-	// application.properties spring.jpa.hibernate.ddl-auto=create
-	@Test
-	void testDBTransaction() {
-
-		args = "";
-		ctx = SpringApplication.run(DemchenkoTask4Application.class, args);
 
 		int counter;
 		int userId;
-		UsersRepo ur=ctx.getBean(UsersRepo.class);
-		LoginsRepo lr=ctx.getBean(LoginsRepo.class);
 
 		Users u1=new Users("Тестовый логин","Тестовый ФИО");
 		Logins l1=new Logins(Timestamp.valueOf("2024-04-22 00:00:00"),u1,"mobile");
@@ -146,14 +143,13 @@ class DemchenkoTask4ApplicationTests {
 		counter=0;
 		userId=0;
 		for (Users uCurrent :listUsers)
-			{	userId=uCurrent.id; // запоминаем для тестирования что запись Logins создалась правильно
+		{	userId=uCurrent.id; // запоминаем для тестирования что запись Logins создалась правильно
 
-				Assertions.assertEquals(uCurrent.username,"Тестовый логин");
-				Assertions.assertEquals(uCurrent.fio,"Тестовый ФИО");
-				counter=counter+1;
-			}
+			Assertions.assertEquals(uCurrent.username,"Тестовый логин");
+			Assertions.assertEquals(uCurrent.fio,"Тестовый ФИО");
+			counter=counter+1;
+		}
 		Assertions.assertEquals(counter,1); // надо понять что именно одна запись создалась Users
-												  // (не более, но и не менее)
 
 		List<Logins> listLogins = lr.findAll(Sort.by(Sort.Order.asc("user1")));
 		counter=0;
@@ -164,8 +160,12 @@ class DemchenkoTask4ApplicationTests {
 			counter=counter+1;
 		}
 		Assertions.assertEquals(counter,1);// надо понять что именно одна запись создалась Logins
-												 // (не более, но и не менее)
 
 	}
 
+
+
+
+
 }
+

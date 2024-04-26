@@ -54,9 +54,6 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
                     fw = new FileWriter(pathinvbeans,true);
                     param1=method.getParameters();
 
-                    //for(Object o: args)
-                        //System.out.println(o.toString());
-
                     fw.write("Log: bean: "+beanName+", method: "+method.getName()+", param: \""+(String)args[0]+"\", return value: \""+(String)retValue+"\", datetime: "+Calendar.getInstance().getTime()+"\n"); // запись в файл факта вызова БИНа
                     fw.close();
                 } catch (IOException e) {
